@@ -1,5 +1,3 @@
-# Copyright (c) HashiCorp, Inc.
-# SPDX-License-Identifier: MPL-2.0
 
 terraform {
   required_providers {
@@ -43,21 +41,21 @@ resource "aws_db_instance" "example" {
 
   # Subnet Group
   vpc_security_group_ids = [aws_security_group.example.id]
-  db_subnet_group_name  = aws_db_subnet_group.example.name
+  db_subnet_group_name   = aws_db_subnet_group.example.name
 
   # Availability Zone
   availability_zone = "ap-southeast-2a" # Change to your desired AZ
 
   # Backup settings
-  backup_retention_period = 7 # Change to your desired retention period
+  backup_retention_period = 7             # Change to your desired retention period
   backup_window           = "02:00-03:00" # Change to your desired backup window
 }
 
 # Define the DB Subnet Group
 resource "aws_db_subnet_group" "example" {
-  name       = "example-subnet-group"
+  name        = "example-subnet-group"
   description = "Subnet group for RDS example"
-  subnet_ids = [aws_subnet.example1.id, aws_subnet.example2.id] # Define your subnets here
+  subnet_ids  = [aws_subnet.example1.id, aws_subnet.example2.id] # Define your subnets here
 }
 
 # Define the security group for the RDS instance
@@ -75,22 +73,21 @@ resource "aws_security_group" "example" {
 
 # Define the VPC and subnets (customize as needed)
 resource "aws_vpc" "example" {
-  cidr_block = "10.0.0.0/16"
-  enable_dns_support = true
+  cidr_block           = "10.0.0.0/16"
+  enable_dns_support   = true
   enable_dns_hostnames = true
 }
 
 resource "aws_subnet" "example1" {
-  count = 1
-  vpc_id     = aws_vpc.example.id
-  cidr_block = "10.0.1.0/24"
+  count             = 1
+  vpc_id            = aws_vpc.example.id
+  cidr_block        = "10.0.1.0/24"
   availability_zone = "ap-southeast-2a" # Change to your desired AZ
 }
 
 resource "aws_subnet" "example2" {
-  count = 1
-  vpc_id     = aws_vpc.example.id
-  cidr_block = "10.0.2.0/24"
+  count             = 1
+  vpc_id            = aws_vpc.example.id
+  cidr_block        = "10.0.2.0/24"
   availability_zone = "ap-southeast-2a" # Change to your desired AZ
 }
-
