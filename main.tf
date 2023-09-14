@@ -41,7 +41,6 @@ resource "aws_db_instance" "example" {
 
   # Subnet Group
   vpc_security_group_ids = [aws_security_group.example.id]
-  db_subnet_group_name   = aws_db_subnet_group.example.name
 
   # Availability Zone
   availability_zone = "ap-southeast-2a" # Change to your desired AZ
