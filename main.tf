@@ -36,7 +36,7 @@ resource "aws_db_instance" "example" {
   name                 = "exampledbrc"
   username             = "db_user"
   password             = "xfVsgnsroGHqxQ"
-  parameter_group_name = "default.postgres13"
+  parameter_group_name = "postgres13.standard"
   skip_final_snapshot  = true # Set to false if you want to create a final snapshot before deleting
 
   # Subnet Group
