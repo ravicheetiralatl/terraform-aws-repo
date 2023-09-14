@@ -29,7 +29,7 @@ provider "aws" {
 }
 
 # Define the RDS instance
-resource "aws_db_instance" "rds-one1" {
+resource "aws_db_instance" "example" {
   allocated_storage    = 20
   storage_type         = "gp2"
   engine               = "postgres"
