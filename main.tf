@@ -33,7 +33,7 @@ resource "aws_db_instance" "example" {
   engine               = "postgres"
   engine_version       = "15.4"
   instance_class       = "db.t4g.medium"
-  name                 = "example-db"
+  name                 = "exampledbrc"
   username             = "db_user"
   password             = "xfVsgnsroGHqxQ"
   parameter_group_name = "default.postgres13"
