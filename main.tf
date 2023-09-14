@@ -22,18 +22,14 @@ terraform {
     }
   }
 }
-
-provider "aws" {
-  region = "us-west-2"
-}
-
 # Define the AWS provider and region
+
 provider "aws" {
-  region = "us-east-1" # Change to your desired region
+  region = "ap-southeast-2"
 }
 
 # Define the RDS instance
-resource "aws_db_instance" "example" {
+resource "aws_db_instance" "rds-one1" {
   allocated_storage    = 20
   storage_type         = "gp2"
   engine               = "postgres"
@@ -41,7 +37,7 @@ resource "aws_db_instance" "example" {
   instance_class       = "db.t2.micro"
   name                 = "example-db"
   username             = "db_user"
-  password             = "your_password_here"
+  password             = "xfVsgnsroGHqxQ"
   parameter_group_name = "default.postgres13"
   skip_final_snapshot  = true # Set to false if you want to create a final snapshot before deleting
 
@@ -50,7 +46,7 @@ resource "aws_db_instance" "example" {
   db_subnet_group_name  = aws_db_subnet_group.example.name
 
   # Availability Zone
-  availability_zone = "us-east-1a" # Change to your desired AZ
+  availability_zone = "ap-southeast-2a" # Change to your desired AZ
 
   # Backup settings
   backup_retention_period = 7 # Change to your desired retention period
@@ -88,14 +84,14 @@ resource "aws_subnet" "example1" {
   count = 1
   vpc_id     = aws_vpc.example.id
   cidr_block = "10.0.1.0/24"
-  availability_zone = "us-east-1a" # Change to your desired AZ
+  availability_zone = "ap-southeast-2a" # Change to your desired AZ
 }
 
 resource "aws_subnet" "example2" {
   count = 1
   vpc_id     = aws_vpc.example.id
   cidr_block = "10.0.2.0/24"
-  availability_zone = "us-east-1b" # Change to your desired AZ
+  availability_zone = "ap-southeast-2a" # Change to your desired AZ
 }
 
 
