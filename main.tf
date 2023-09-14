@@ -27,55 +27,77 @@ provider "aws" {
   region = "us-west-2"
 }
 
-resource "random_pet" "sg" {}
-
-data "aws_ami" "ubuntu" {
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  owners = ["099720109477"] # Canonical
+# Define the AWS provider and region
+provider "aws" {
+  region = "us-east-1" # Change to your desired region
 }
 
-resource "aws_instance" "web" {
-  ami                    = data.aws_ami.ubuntu.id
-  instance_type          = "t2.micro"
-  vpc_security_group_ids = [aws_security_group.web-sg.id]
+# Define the RDS instance
+resource "aws_db_instance" "example" {
+  allocated_storage    = 20
+  storage_type         = "gp2"
+  engine               = "postgres"
+  engine_version       = "13.3"
+  instance_class       = "db.t2.micro"
+  name                 = "example-db"
+  username             = "db_user"
+  password             = "your_password_here"
+  parameter_group_name = "default.postgres13"
+  skip_final_snapshot  = true # Set to false if you want to create a final snapshot before deleting
 
-  user_data = <<-EOF
-              #!/bin/bash
-              apt-get update
-              apt-get install -y apache2
-              sed -i -e 's/80/8080/' /etc/apache2/ports.conf
-              echo "Hello World" > /var/www/html/index.html
-              systemctl restart apache2
-              EOF
+  # Subnet Group
+  vpc_security_group_ids = [aws_security_group.example.id]
+  db_subnet_group_name  = aws_db_subnet_group.example.name
+
+  # Availability Zone
+  availability_zone = "us-east-1a" # Change to your desired AZ
+
+  # Backup settings
+  backup_retention_period = 7 # Change to your desired retention period
+  backup_window           = "02:00-03:00" # Change to your desired backup window
 }
 
-resource "aws_security_group" "web-sg" {
-  name = "${random_pet.sg.id}-sg"
+# Define the DB Subnet Group
+resource "aws_db_subnet_group" "example" {
+  name       = "example-subnet-group"
+  description = "Subnet group for RDS example"
+  subnet_ids = [aws_subnet.example1.id, aws_subnet.example2.id] # Define your subnets here
+}
+
+# Define the security group for the RDS instance
+resource "aws_security_group" "example" {
+  name        = "example-db-sg"
+  description = "Security group for RDS example"
+
   ingress {
-    from_port   = 8080
-    to_port     = 8080
+    from_port   = 5432
+    to_port     = 5432
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  // connectivity to ubuntu mirrors is required to run `apt-get update` and `apt-get install apache2`
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["0.0.0.0/0"] # Allow incoming connections from anywhere (for demonstration purposes; restrict as needed)
   }
 }
+
+# Define the VPC and subnets (customize as needed)
+resource "aws_vpc" "example" {
+  cidr_block = "10.0.0.0/16"
+  enable_dns_support = true
+  enable_dns_hostnames = true
+}
+
+resource "aws_subnet" "example1" {
+  count = 1
+  vpc_id     = aws_vpc.example.id
+  cidr_block = "10.0.1.0/24"
+  availability_zone = "us-east-1a" # Change to your desired AZ
+}
+
+resource "aws_subnet" "example2" {
+  count = 1
+  vpc_id     = aws_vpc.example.id
+  cidr_block = "10.0.2.0/24"
+  availability_zone = "us-east-1b" # Change to your desired AZ
+}
+
 
 output "web-address" {
   value = "${aws_instance.web.public_dns}:8080"
