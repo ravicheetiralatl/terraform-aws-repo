@@ -55,7 +55,7 @@ resource "aws_db_instance" "example" {
 resource "aws_db_subnet_group" "example" {
   name        = "example-subnet-group"
   description = "Subnet group for RDS example"
-  subnet_ids  = [aws_subnet.example1.id, aws_subnet.example2.id] # Define your subnets here
+  subnet_ids  = [aws_subnet.example1[count.index].id, aws_subnet.example2[count.index].id] # Define your subnets here
 }
 
 # Define the security group for the RDS instance
