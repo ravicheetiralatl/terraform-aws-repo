@@ -32,7 +32,7 @@ resource "aws_db_instance" "example" {
   storage_type         = "gp2"
   engine               = "postgres"
   engine_version       = "15.4"
-  instance_class       = "db.t2.micro"
+  instance_class       = "db.t4g.medium"
   name                 = "example-db"
   username             = "db_user"
   password             = "xfVsgnsroGHqxQ"
