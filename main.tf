@@ -94,7 +94,3 @@ resource "aws_subnet" "example2" {
   availability_zone = "ap-southeast-2a" # Change to your desired AZ
 }
 
-
-output "web-address" {
-  value = "${aws_instance.web.public_dns}:8080"
-}
