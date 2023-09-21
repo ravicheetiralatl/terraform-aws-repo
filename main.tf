@@ -42,7 +42,7 @@ resource "aws_db_instance" "rds" {
   vpc_security_group_ids = [aws_security_group.asg.id]
 
   # Availability Zone
-  availability_zone = "ap-southeast-2a" # Change to your desired AZ
+  availability_zone = "ap-south-1a" # Change to your desired AZ
 
   # Backup settings
   backup_retention_period = 7             # Change to your desired retention period
@@ -79,11 +79,11 @@ resource "aws_vpc" "vpc1" {
 resource "aws_subnet" "subnet1" {
   vpc_id            = aws_vpc.vpc1.id
   cidr_block        = "10.0.1.0/24"
-  availability_zone = "ap-southeast-2a" # Change to your desired AZ
+  availability_zone = "ap-south-1a" # Change to your desired AZ
 }
 
 resource "aws_subnet" "subnet2" {
   vpc_id            = aws_vpc.vpc1.id
   cidr_block        = "10.0.2.0/24"
-  availability_zone = "ap-southeast-2b" # Change to your desired AZ
+  availability_zone = "ap-south-1b" # Change to your desired AZ
 }
