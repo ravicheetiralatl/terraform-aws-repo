@@ -67,7 +67,7 @@ jobs:
       - name: Terraform Apply
         run: |
           if [[ ${{ env.APPROVE_TERRAFORM_APPLY }} == 'true' ]]; then
-            terraform apply -auto-approve -input=false -var "prefix=${{ github.event.inputs.dbName }}" -var  "engineversion=${{ github.event.inputs.engineversion }}"  -var  "enginetype=${{ github.event.inputs.enginetype }}"}
+            terraform apply -auto-approve -input=false -var "prefix=${{ github.event.inputs.dbName }}" -var  "engineversion=${{ github.event.inputs.engineversion }}"  -var  "enginetype=${{ github.event.inputs.enginetype }}"
           else
             echo "Terraform apply is not approved. Skipping."
           fi
