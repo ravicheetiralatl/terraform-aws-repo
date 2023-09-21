@@ -32,7 +32,7 @@ resource "aws_db_instance" "rds" {
   engine               = "postgres"
   engine_version       = "15.4"
   instance_class       = "db.t4g.medium"
-  db_name              = "db-${var.name}"
+  name              = "db-${var.name}"
   username             = "db_user"
   password             = "xfVsgnsroGHqxQ"
   parameter_group_name = "default.postgres15"
