@@ -43,11 +43,11 @@ jobs:
       
       - name: Terraform Validate
         id: validate
-        run: terraform validate -no-color -var "prefix=${{ github.event.inputs.dbName }}" -var  "engineversion=${{ github.event.inputs.engineversion }}"  -var  "enginetype=${{ github.event.inputs.enginetype }}"}}      
+        run: terraform validate -no-color -var "prefix=${{ github.event.inputs.dbName }}" -var  "engineversion=${{ github.event.inputs.engineversion }}"  -var  "enginetype=${{ github.event.inputs.enginetype }}"     
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color -input=false -var "prefix=${{ github.event.inputs.dbName }}" -var  "engineversion=${{ github.event.inputs.engineversion }}"  -var  "enginetype=${{ github.event.inputs.enginetype }}"}}      
+        run: terraform plan -no-color -input=false -var "prefix=${{ github.event.inputs.dbName }}" -var  "engineversion=${{ github.event.inputs.engineversion }}"  -var  "enginetype=${{ github.event.inputs.enginetype }}"     
         continue-on-error: true
         
       - name: Terraform Plan Status
