@@ -1,16 +1,16 @@
 name: "Terraform"
 
-on: 
+on:
   workflow_dispatch:
     inputs:
       dbName:
         description: 'DB Name'
         required: true
       instanceType:
-        description: 'DB Name'
+        description: 'Instance Type'
         required: true
       instanceVersion:
-        description: 'DB Name'
+        description: 'Instance Version'
         required: true  
   push:
     branches:
@@ -43,7 +43,7 @@ jobs:
       
       - name: Terraform Validate
         id: validate
-        run: terraform validate -no-color
+        run: terraform validate -no-color -var "prefix=${{ github.event.inputs.dbName }}" -var  "engineversion=${{ github.event.inputs.engineversion }}"  -var  "enginetype=${{ github.event.inputs.enginetype }}"}}      
 
       - name: Terraform Plan
         id: plan
@@ -54,5 +54,20 @@ jobs:
         if: steps.plan.outcome == 'failure'
         run: exit 1
 
+      - name: Manual Approval
+        id: approval
+        run: |
+          echo "This is a manual approval step."
+          echo "Review the changes and decide whether to proceed."
+          echo "To approve, set the APPROVE_TERRAFORM_APPLY environment variable to 'true' in the repository secrets."
+          echo "To reject, set it to 'false'."
+          exit 1
+        if: ${{ env.APPROVE_TERRAFORM_APPLY == 'false' }}
+
       - name: Terraform Apply
-        run: terraform apply -auto-approve -input=false -var "prefix=${{ github.event.inputs.dbName }}" -var  "engineversion=${{ github.event.inputs.engineversion }}"  -var  "enginetype=${{ github.event.inputs.enginetype }}"}}      
+        run: |
+          if [[ ${{ env.APPROVE_TERRAFORM_APPLY }} == 'true' ]]; then
+            terraform apply -auto-approve -input=false -var "prefix=${{ github.event.inputs.dbName }}" -var  "engineversion=${{ github.event.inputs.engineversion }}"  -var  "enginetype=${{ github.event.inputs.enginetype }}"}
+          else
+            echo "Terraform apply is not approved. Skipping."
+          fi
