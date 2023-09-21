@@ -32,6 +32,7 @@ resource "aws_db_instance" "rds" {
   engine               = "postgres"
   engine_version       = "15.4"
   instance_class       = "db.t4g.medium"
+  identifier           = "rds${var.name}"
   db_name              = "db${var.name}"
   username             = "db_user"
   password             = "xfVsgnsroGHqxQ"
