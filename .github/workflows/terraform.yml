@@ -2,6 +2,10 @@ name: "Terraform"
 
 on: 
   workflow_dispatch:
+    inputs:
+      dbName:
+        description: 'DB Name'
+        required: true
   push:
     branches:
       - main
