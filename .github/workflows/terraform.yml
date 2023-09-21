@@ -6,6 +6,12 @@ on:
       dbName:
         description: 'DB Name'
         required: true
+      instanceType:
+        description: 'DB Name'
+        required: true
+      instanceVersion:
+        description: 'DB Name'
+        required: true  
   push:
     branches:
       - main
@@ -41,7 +47,7 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color -input=false -var "prefix=${{ github.event.inputs.dbName }}"
+        run: terraform plan -no-color -input=false -var "prefix=${{ github.event.inputs.dbName }}" -var  "engineversion=${{ github.event.inputs.engineversion }}"  -var  "enginetype=${{ github.event.inputs.enginetype }}"}}      
         continue-on-error: true
         
       - name: Terraform Plan Status
@@ -49,4 +55,4 @@ jobs:
         run: exit 1
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve -input=false -var "prefix=${{ github.event.inputs.dbName }}"
+        run: terraform apply -auto-approve -input=false -var "prefix=${{ github.event.inputs.dbName }}" -var  "engineversion=${{ github.event.inputs.engineversion }}"  -var  "enginetype=${{ github.event.inputs.enginetype }}"}}      
