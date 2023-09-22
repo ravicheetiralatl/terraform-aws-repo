@@ -43,11 +43,11 @@ jobs:
       
       - name: Terraform Validate
         id: validate
-        run: terraform validate -no-color -var "prefix=${{ github.event.inputs.dbName }}" -var  "engineversion=${{ github.event.inputs.engineversion }}"  -var  "enginetype=${{ github.event.inputs.enginetype }}"     
+        run: terraform validate -no-color -var "prefix=${{ github.event.inputs.dbName }}" -var  "engineversion=${{ github.event.inputs.instanceVersion }}"  -var  "enginetype=${{ github.event.inputs.instanceType }}"     
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color -input=false -var "prefix=${{ github.event.inputs.dbName }}" -var  "engineversion=${{ github.event.inputs.engineversion }}"  -var  "enginetype=${{ github.event.inputs.enginetype }}"     
+        run: terraform plan -no-color -input=false -var "prefix=${{ github.event.inputs.dbName }}" -var  "engineversion=${{ github.event.inputs.instanceVersion }}"  -var  "enginetype=${{ github.event.inputs.instanceType }}"     
         continue-on-error: true
         
       - name: Terraform Plan Status
@@ -67,7 +67,7 @@ jobs:
       - name: Terraform Apply
         run: |
           if [[ ${{ env.APPROVE_TERRAFORM_APPLY }} == 'true' ]]; then
-            terraform apply -auto-approve -input=false -var "prefix=${{ github.event.inputs.dbName }}" -var  "engineversion=${{ github.event.inputs.engineversion }}"  -var  "enginetype=${{ github.event.inputs.enginetype }}"
+            terraform apply -auto-approve -input=false -var "prefix=${{ github.event.inputs.dbName }}" -var  "engineversion=${{ github.event.inputs.instanceVersion }}"  -var  "enginetype=${{ github.event.inputs.instanceType }}"
           else
             echo "Terraform apply is not approved. Skipping."
           fi
