@@ -56,3 +56,12 @@ jobs:
       - name: Terraform Apply
         run: |
             terraform apply -auto-approve -input=false -var="prefix=${{ github.event.inputs.dbName }}" -var="engineversion=${{ github.event.inputs.instanceVersion }}"  -var="enginetype=${{ github.event.inputs.instanceType }}"
+  notify:
+    runs-on: ubuntu-latest
+    needs: terraform  
+    steps:
+      - name: Report Deploy
+        uses: OpsLevel/report-deploy-github-action@v0.6.0
+        with:
+          integration_url: ${{ secrets.OL_INTEGRATION_URL }}
+          service: "AWSRDS"
