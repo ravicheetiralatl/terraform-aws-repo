@@ -64,4 +64,4 @@ jobs:
         uses: OpsLevel/report-deploy-github-action@v0.6.0
         with:
           integration_url: ${{ secrets.OL_INTEGRATION_URL }}
-          service: "AWSRDS"
+          service: "TerraformService"
