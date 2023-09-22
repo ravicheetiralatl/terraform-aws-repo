@@ -29,10 +29,10 @@ provider "aws" {
 resource "aws_db_instance" "rds" {
   allocated_storage    = 20
   storage_type         = "gp2"
-  engine               = var.enginetype
-  engine_version       = 15.4
+  engine               = "postgres"
+  engine_version       = "15.4"
   instance_class       = "db.t4g.medium"
-  identifier           = "rds${var.prefix}"
+  identifier           = "rds-${var.prefix}"
   db_name              = "db${var.prefix}"
   username             = "db_user"
   password             = "xfVsgnsroGHqxQ"
