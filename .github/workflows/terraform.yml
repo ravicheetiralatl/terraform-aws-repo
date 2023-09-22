@@ -53,21 +53,6 @@ jobs:
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
         run: exit 1
-
-      - name: Manual Approval
-        id: approval
-        run: |
-          echo "This is a manual approval step."
-          echo "Review the changes and decide whether to proceed."
-          echo "To approve, set the APPROVE_TERRAFORM_APPLY environment variable to 'true' in the repository secrets."
-          echo "To reject, set it to 'false'."
-          exit 1
-        if: ${{ env.APPROVE_TERRAFORM_APPLY == 'false' }}
-
       - name: Terraform Apply
         run: |
-          if [[ ${{ env.APPROVE_TERRAFORM_APPLY }} == 'true' ]]; then
             terraform apply -auto-approve -input=false -var="prefix=${{ github.event.inputs.dbName }}" -var="engineversion=${{ github.event.inputs.instanceVersion }}"  -var="enginetype=${{ github.event.inputs.instanceType }}"
-          else
-            echo "Terraform apply is not approved. Skipping."
-          fi
